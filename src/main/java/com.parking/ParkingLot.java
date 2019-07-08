@@ -2,9 +2,6 @@ package com.parking;
 
 import java.util.*;
 
-/**
- * Created by prasadus on 26/06/16.
- */
 public class ParkingLot {
     int MAX_SIZE = 0;
     private class Car {
