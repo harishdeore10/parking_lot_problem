@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class ParkingLotTest {
     ParkingLot parkingLot = new ParkingLot();
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
@@ -22,6 +23,7 @@ public class ParkingLotTest {
     public void cleanUpStreams() {
         System.setOut(null);
     }
+
     @Test
     public void createParkingLot() throws Exception {
         parkingLot.createParkingLot("6");
@@ -43,24 +45,6 @@ public class ParkingLotTest {
         assertEquals(4, parkingLot.availableSlotList.size());
     }
 
-    @Test
-    public void leave() throws Exception {
-        parkingLot.leave("2");
-        assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-        parkingLot.createParkingLot("6");
-        parkingLot.park("KA-01-HH-1234", "White");
-        parkingLot.park("KA-01-HH-9999", "White");
-        parkingLot.leave("4");
-        assertEquals("Sorry,parkinglotisnotcreated\n" +
-                "\n" +
-                "Createdparkinglotwith6slots\n" +
-                "\n" +
-                "Allocatedslotnumber:1\n" +
-                "\n" +
-                "Allocatedslotnumber:2\n" +
-                "\n" +
-                "Slotnumber4isalreadyempty", outContent.toString().trim().replace(" ", ""));
-    }
 
     @Test
     public void status() throws Exception {
@@ -81,37 +65,6 @@ public class ParkingLotTest {
                 "SlotNo.\tRegistrationNo.\tColor\n" +
                 "1\tKA-01-HH-1234\tWhite\n" +
                 "2\tKA-01-HH-9999\tWhite", outContent.toString().trim().replace(" ", ""));
-    }
-
-    @Test
-    public void getRegistrationNumbersFromColor() throws Exception {
-        parkingLot.getRegistrationNumbersFromColor("White");
-        assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-        parkingLot.createParkingLot("6");
-        parkingLot.park("KA-01-HH-1234", "White");
-        parkingLot.park("KA-01-HH-9999", "White");
-        parkingLot.getRegistrationNumbersFromColor("White");
-        assertEquals("Sorry,parkinglotisnotcreated\n" +
-                "\n" +
-                "Createdparkinglotwith6slots\n" +
-                "\n" +
-                "Allocatedslotnumber:1\n" +
-                "\n" +
-                "Allocatedslotnumber:2\n" +
-                "\n" +
-                "\n" +
-                "KA-01-HH-1234,KA-01-HH-9999", outContent.toString().trim().replace(" ", ""));
-        parkingLot.getRegistrationNumbersFromColor("Red");
-        assertEquals("Sorry,parkinglotisnotcreated\n" +
-                "\n" +
-                "Createdparkinglotwith6slots\n" +
-                "\n" +
-                "Allocatedslotnumber:1\n" +
-                "\n" +
-                "Allocatedslotnumber:2\n" +
-                "\n" +
-                "\n" +
-                "KA-01-HH-1234,KA-01-HH-9999Notfound", outContent.toString().trim().replace(" ", ""));
     }
 
     @Test
@@ -189,6 +142,56 @@ public class ParkingLotTest {
                 "Slotnumber1isfree\n" +
                 "\n" +
                 "Notfound", outContent.toString().trim().replace(" ", ""));
+    }
+
+    @Test
+    public void leave() throws Exception {
+        parkingLot.leave("2");
+        assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
+        parkingLot.createParkingLot("6");
+        parkingLot.park("KA-01-HH-1234", "White");
+        parkingLot.park("KA-01-HH-9999", "White");
+        parkingLot.leave("4");
+        assertEquals("Sorry,parkinglotisnotcreated\n" +
+                "\n" +
+                "Createdparkinglotwith6slots\n" +
+                "\n" +
+                "Allocatedslotnumber:1\n" +
+                "\n" +
+                "Allocatedslotnumber:2\n" +
+                "\n" +
+                "Slotnumber4isalreadyempty", outContent.toString().trim().replace(" ", ""));
+    }
+
+    @Test
+    public void getRegistrationNumbersFromColor() throws Exception {
+        parkingLot.getRegistrationNumbersFromColor("White");
+        assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
+        parkingLot.createParkingLot("6");
+        parkingLot.park("KA-01-HH-1234", "White");
+        parkingLot.park("KA-01-HH-9999", "White");
+        parkingLot.getRegistrationNumbersFromColor("White");
+        assertEquals("Sorry,parkinglotisnotcreated\n" +
+                "\n" +
+                "Createdparkinglotwith6slots\n" +
+                "\n" +
+                "Allocatedslotnumber:1\n" +
+                "\n" +
+                "Allocatedslotnumber:2\n" +
+                "\n" +
+                "\n" +
+                "KA-01-HH-1234,KA-01-HH-9999", outContent.toString().trim().replace(" ", ""));
+        parkingLot.getRegistrationNumbersFromColor("Red");
+        assertEquals("Sorry,parkinglotisnotcreated\n" +
+                "\n" +
+                "Createdparkinglotwith6slots\n" +
+                "\n" +
+                "Allocatedslotnumber:1\n" +
+                "\n" +
+                "Allocatedslotnumber:2\n" +
+                "\n" +
+                "\n" +
+                "KA-01-HH-1234,KA-01-HH-9999Notfound", outContent.toString().trim().replace(" ", ""));
     }
 
 }
